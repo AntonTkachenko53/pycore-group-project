@@ -22,7 +22,7 @@ try:
     with open("contacts.json", "r") as file:
         contacts_data = json.load(file)
         for contacts_data in contacts_data:
-            contact = Contact(**contact_data)
+            contact = Contact(**contacts_data)
             contacts.append(contact)
 except FileNotFoundError:
     print("File 'contacts.json' not found. Try adding contacts.")
