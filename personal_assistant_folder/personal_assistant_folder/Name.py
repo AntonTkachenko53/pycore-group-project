@@ -7,5 +7,6 @@ class Name(Field):
         self.validate()
 
     def validate(self):
-        if len(self._value) < 3 or self._value.isdigit():
+        check_name = self._value.strip()
+        if len(check_name) < 3 or check_name.isdigit():
             raise ValueError("Invalid name. Name should be 3+ chars length and don`t consist only with numbers")
