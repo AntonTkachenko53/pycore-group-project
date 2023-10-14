@@ -2,6 +2,8 @@ from datetime import datetime
 from Field import Field
 
 class Birthday(Field):
+    DATE_FORMAT = '%d.%m.%Y'
+
     def __init__(self, value):
         super().__init__(value)
         self.validate()
