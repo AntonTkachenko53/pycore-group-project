@@ -13,7 +13,7 @@ class Email(Field):
                 r"^(?![.@])[a-zA-Z0-9._-]+(?<!\.)@(?![.])(?!\.)[a-zA-Z0-9.-]+(?<![.])\.[a-zA-Z]{2,6}$"
             )
 
-            if len(self._value) > 20:
+            if len(self._value) > 50:
                 raise ValueError('Email is too long.')
 
             if not email_re.match(self._value):
