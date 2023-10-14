@@ -11,8 +11,6 @@ class Field:
 
     @value.setter
     def value(self, new_value):
-        self.validate()
-
         self._value = new_value
 
     def validate(self):
