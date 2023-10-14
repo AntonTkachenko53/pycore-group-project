@@ -2,7 +2,7 @@ from Field import Field
 
 
 class Phone(Field):
-    MAX_LENGTH = 15
+    MAX_LENGTH = 13
     MIN_LENGTH = 9
 
     def __init__(self, value):
@@ -19,4 +19,3 @@ class Phone(Field):
             raise ValueError("Phone number too short")
 
         self._value = '+' + cleaned_number if len(cleaned_number) == 12 else cleaned_number
-
