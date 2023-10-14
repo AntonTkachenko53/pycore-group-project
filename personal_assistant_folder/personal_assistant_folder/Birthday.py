@@ -1,12 +1,16 @@
 from datetime import datetime
+from Field import Field
 
-class Birthday:
+class Birthday(Field):
+    DATE_FORMAT = '%d.%m.%Y'
+
     def __init__(self, value):
-        self.value = value
+        super().__init__(value)
+        self.validate()
 
     def _check_valid_date(self, date):
         try:
-            datetime.strptime(date, '%Y-%m-%d')
+            datetime.strptime(date, self.DATE_FORMAT)
             return True
         except ValueError:
             return False
@@ -16,7 +20,7 @@ class Birthday:
         return self.value.replace(year=today.year)
 
     def validate(self):
-        if not self._check_valid_date(self.value.strftime('%Y-%m-%d')):
+        if not self._check_valid_date(self.value.strftime(self.DATE_FORMAT)):
             raise ValueError("Invalid date format for birthday")
         self.value = self._normalize_year()
 
