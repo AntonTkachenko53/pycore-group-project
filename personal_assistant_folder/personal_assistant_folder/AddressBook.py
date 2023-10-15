@@ -3,6 +3,8 @@ from Record import Record
 
 
 class AddressBook(UserDict):
+    MIN_LENGTH_ADD = 2
+    MAX_LENGTH_ADD = 5
 
     def add_record(self, user_input):
         '''
@@ -10,9 +12,7 @@ class AddressBook(UserDict):
         порядок наступний: name, phone, далі ключові аргументи, котрі за замовчуванням = None: birthday, email, address.
         '''
         commands = user_input.strip().split(' ')
-        min_length = 2
-        max_length = 5
-        if not (min_length <= len(commands) <= max_length):
+        if not (self.MIN_LENGTH_ADD <= len(commands) <= self.MAX_LENGTH_ADD):
             raise ValueError('Enter correct info to add a record')
 
         name, phone, *args = commands  # Розпакування перших двох значень та всіх інших у змінну args
