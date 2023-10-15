@@ -23,10 +23,11 @@ class AddressBook(UserDict):
             pass
 
     def find_record(self, searching_str: str):
-        result = [record for record in self.data.values() if
-                  searching_str in f"{record.name._value} {record.phone._value} \
-                                    {record.birthday._value} {record.email._value} {record.address._value}"]
-
+        result = [
+            record for record in self.data.values() if
+            searching_str in f"{record.name._value} {record.phone._value} "
+                             f"{record.birthday._value} {record.email._value} {record.address._value}"
+        ]
         return result
 
     # def delete_record(self, record_to_delete: str):
