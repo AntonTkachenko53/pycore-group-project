@@ -6,3 +6,4 @@ class Note:
     def __init__(self, title, content=''):
         self.title = Title(title)
         self.content = Content(content)
+        self.tags = set()
