@@ -17,6 +17,10 @@ class Record:
             self.phones = Phone(value)  # Оновіть об'єкт Phone замість створення списку
         elif info == "email":
             self.email = Email(value)
+        elif info == "name":
+            self.name = Name(value)
+        elif info == "birthday":
+            self.birthday = Birthday(value)
         elif info == "address":
             self.address = Address(value)
 
@@ -25,11 +29,17 @@ class Record:
             self.email = None
         elif info == "address":
             self.address = None
+        elif info == "birthday":
+            self.address = None
 
     def edit(self, info, value):
         if info == "phone":
             self.phones.number = value
+        elif info == "name":
+            self.name = Name(value)
         elif info == "email":
             self.email = Email(value)
+        elif info == "birthday":
+            self.birthday = Birthday(value)
         elif info == "address":
             self.address = Address(value)
