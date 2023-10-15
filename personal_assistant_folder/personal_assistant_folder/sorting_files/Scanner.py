@@ -2,13 +2,13 @@ from pathlib import Path
 
 
 class Scanner:
-    def __init__(self):
-        self.IMAGES = ('JPEG', 'PNG', 'JPG', 'SVG')
-        self.VIDEOS = ('AVI', 'MP4', 'MOV', 'MKV')
-        self.DOCUMENTS = ('DOC', 'DOCX', 'TXT', 'PDF', 'XLSX', 'PPTX')
-        self.AUDIOS = ('MP3', 'OGG', 'WAV', 'AMR')
-        self.ARCHIVES = ('ZIP', 'GZ', 'TAR')
+    IMAGES = ('JPEG', 'PNG', 'JPG', 'SVG')
+    VIDEOS = ('AVI', 'MP4', 'MOV', 'MKV')
+    DOCUMENTS = ('DOC', 'DOCX', 'TXT', 'PDF', 'XLSX', 'PPTX')
+    AUDIOS = ('MP3', 'OGG', 'WAV', 'AMR')
+    ARCHIVES = ('ZIP', 'GZ', 'TAR')
 
+    def __init__(self):
         self.images_files = list()
         self.videos_files = list()
         self.docs_files = list()
@@ -59,28 +59,9 @@ class Scanner:
                 self.other_files.append(file_path)
             else:
                 try:
-                    if extension in self.IMAGES:
-                        container = self.registered_extensions['IMAGES']
-                        extensions_list = self.extensions
-                    elif extension in self.VIDEOS:
-                        container = self.registered_extensions['VIDEOS']
-                        extensions_list = self.extensions
-                    elif extension in self.DOCUMENTS:
-                        container = self.registered_extensions['DOCUMENTS']
-                        extensions_list = self.extensions
-                    elif extension in self.AUDIOS:
-                        container = self.registered_extensions['AUDIOS']
-                        extensions_list = self.extensions
-                    elif extension in self.ARCHIVES:
-                        container = self.registered_extensions['ARCHIVES']
-                        extensions_list = self.extensions
-                    else:
-                        container = self.other_files
-                        extensions_list = self.unknown_extensions
-
-                    extensions_list.add(extension)
+                    container = self.registered_extensions[extension]
+                    self.extensions.add(extension)
                     container.append(file_path)
-
                 except KeyError:
                     self.unknown_extensions.add(extension)
                     self.other_files.append(file_path)

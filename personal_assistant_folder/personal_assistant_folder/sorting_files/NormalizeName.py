@@ -2,11 +2,10 @@ import re
 
 
 class NormalizeName:
-    def __init__(self):
-        self.UKRAINIAN_SYMBOLS = 'абвгдеєжзиіїйклмнопрстуфхцчшщьюя'
-        self.TRANSLATION = ("a", "b", "v", "g", "d", "e", "je", "zh", "z", "y", "i", "ji", "j",
-                            "k", "l", "m", "n", "o", "p", "r", "s", "t", "u", "f", "h", "ts",
-                            "ch", "sh", "sch", "", "ju", "ja")
+    UKRAINIAN_SYMBOLS = 'абвгдеєжзиіїйклмнопрстуфхцчшщьюя'
+    TRANSLATION = ("a", "b", "v", "g", "d", "e", "je", "zh", "z", "y", "i", "ji", "j",
+                   "k", "l", "m", "n", "o", "p", "r", "s", "t", "u", "f", "h", "ts",
+                   "ch", "sh", "sch", "", "ju", "ja")
 
     def _build_transliteration_map(self):
         """
