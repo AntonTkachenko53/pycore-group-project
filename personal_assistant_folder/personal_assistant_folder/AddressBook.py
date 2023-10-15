@@ -30,7 +30,8 @@ class AddressBook(UserDict):
         ]
         return result
 
-    # def delete_record(self, record_to_delete: str):
-    #     match_record = self.find_record(record_to_delete)
-    #     self.data.pop(match_record)
-
+    def delete_record(self, record_to_delete: str):
+        try:
+            self.data.pop(record_to_delete)
+        except KeyError:
+            pass
