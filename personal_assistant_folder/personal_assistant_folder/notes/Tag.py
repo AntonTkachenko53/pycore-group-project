@@ -20,3 +20,9 @@ class Tag(Field):
 
         if not tag.startswith('#'):
             raise ValueError("Tag must starts with '#'")
+
+    def __hash__(self):
+        return hash(self.value)
+
+    def __eq__(self, other):
+        return isinstance(other, Tag) and self.value == other.value
