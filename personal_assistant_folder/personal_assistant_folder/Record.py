@@ -12,11 +12,24 @@ class Record:
         self.email = Email(email) if email else None
         self.address = Address(address) if address else None
 
-    def add(self):
-        pass
+    def add(self, info, value):
+        if info == "phone":
+            self.phones = Phone(value)  # Оновіть об'єкт Phone замість створення списку
+        elif info == "email":
+            self.email = Email(value)
+        elif info == "address":
+            self.address = Address(value)
 
-    def remove(self):
-        pass
+    def remove(self, info):
+        if info == "email":
+            self.email = None
+        elif info == "address":
+            self.address = None
 
-    def edit(self):
-        pass
+    def edit(self, info, value):
+        if info == "phone":
+            self.phones.number = value
+        elif info == "email":
+            self.email = Email(value)
+        elif info == "address":
+            self.address = Address(value)
