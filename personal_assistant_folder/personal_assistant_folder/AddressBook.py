@@ -4,8 +4,8 @@ from Record import Record
 
 class AddressBook(UserDict):
 
-    def add_record(self, name, phone):
-        try:
-            self.data[name] = Record(name, phone)
-        except ValueError:
-            pass
+    def add_record(self, user_input):  # Інпут може місти від двох до п'яти значень, котрі записуються в record
+        commands = user_input.strip().split(', ')
+        min_length = 2
+        max_length = 
+        if len(commands)
