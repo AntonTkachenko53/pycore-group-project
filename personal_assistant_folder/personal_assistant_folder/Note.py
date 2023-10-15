@@ -14,7 +14,8 @@ class Note:
         Add new tag in tags list for note
         :param value: new tag
         """
-        self.tags.add(Tag(value))
+        if self.check_tag(value):
+            self.tags.add(Tag(value))
 
     def check_tag(self, value):
         """
