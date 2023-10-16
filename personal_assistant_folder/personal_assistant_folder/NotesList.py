@@ -44,6 +44,6 @@ class NotesList:
     def find_note(self, value):
         found_notes = []
         for note in self.noteslist:
-            if value in note.title or value in note.content:
+            if value in note.title or value in note.content.value:
                 found_notes.append(note)
         return found_notes        
