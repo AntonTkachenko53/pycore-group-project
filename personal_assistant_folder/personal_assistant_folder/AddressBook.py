@@ -17,6 +17,10 @@ class AddressBook(UserDict):
 
         name, phone, *args = commands  # Розпакування перших двох значень та всіх інших у змінну args
 
+        for record in self.data.values():
+            if name == record.name._value:
+                raise ValueError('Contact with this name already exists')
+
         try:
             self.data[name] = Record(name, phone, *args)
         except ValueError:
