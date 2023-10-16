@@ -245,11 +245,10 @@ while True:
                 try:
                     command = input("Find note(s): ")
                     # TODO: Доработать когда обновлюсь с MAIN
-                    # if command.startswith('#'):
-                    #     notes = noteslist.find_sort(command)
-                    # else:
-                    # TODO: next line move right after uncomment
-                    notes = noteslist.find_note(command)
+                    if command.startswith('#'):
+                        notes = noteslist.find_sort(command)
+                    else:
+                        notes = noteslist.find_note(command)
 
                     if notes:
                         for note in notes:
