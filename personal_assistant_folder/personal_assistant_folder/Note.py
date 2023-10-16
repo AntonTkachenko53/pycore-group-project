@@ -32,3 +32,7 @@ class Note:
         """
         if self.check_tag(value):
             self.tags.discard(Tag(value))
+
+    def __str__(self):
+        tags_str = ', '.join(str(tag) for tag in self.tags) if self.tags else ''
+        return f'Title: {self.title}\nContent: {self.content}\nTags: {tags_str}'
