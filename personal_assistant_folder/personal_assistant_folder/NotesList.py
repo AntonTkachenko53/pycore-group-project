@@ -31,6 +31,31 @@ class NotesList:
         except ValueError:
             raise ValueError("Invalid data format\nExample: Title;Content;#tag1,#tag2,#tag3")
 
+    def edit_note(self, title, new_value):
+        # Find the note by title
+        for note in self.noteslist:
+            if str(note.title) == title:
+                # Split the new value into title, content, and tags
+                try:
+                    new_title, new_content, new_tags = new_value.split(';')
+                except ValueError:
+                    raise ValueError("Invalid data format for editing\nExample: Title;Content;#tag1,#tag2,#tag3")
+
+                # Update the note's title and content
+                note.title = new_title
+                note.content = new_content
+
+                # Update the tags
+                note.tags.clear()
+                if new_tags:
+                    tags_list = new_tags.split(',')
+                    for tag in tags_list:
+                        note.add_tag(tag)
+                return
+
+        # If the note with the given title was not found
+        raise ValueError(f"Note with title '{title}' not found")
+
     def delete(self, value):
         # !!!Attention!!!
         # Find and delete Note work only by it title
