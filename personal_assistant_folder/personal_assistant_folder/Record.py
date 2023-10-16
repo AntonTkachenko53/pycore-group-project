@@ -18,11 +18,15 @@ class Record:
                 setattr(self, field_name, value)
         except ValueError:
             pass
+        
     def remove(self, field_name):
+        if field_name in ['name', 'phone']:
+            raise ValueError('You can`t delete contact`s name or phone')
         try:
             if hasattr(self, field_name):
                 setattr(self, field_name, None)
         except ValueError:
             pass
+
     def __str__(self):
         return f"Name: {self.name}, Phone: {self.phone}, Birthday: {self.birthday}, Email: {self.email}, Address: {self.address}"
