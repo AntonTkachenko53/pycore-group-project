@@ -67,9 +67,29 @@ class NotesList:
                     self.noteslist.remove(note)
         except ValueError:
             pass
+
     def find_note(self, value):
         found_notes = []
         for note in self.noteslist:
             if value in note.title.value or value in note.content.value:
                 found_notes.append(note)
-        return found_notes        
+        return found_notes
+
+    def find_sort(self, value: str):
+        result_list = []
+        title_to_note = {}
+
+        for note in self.noteslist:
+            for tag in note.tags:
+                if value == tag.value:
+                    title = note.title.value
+                    if title not in title_to_note:
+                        title_to_note[title] = note
+
+        found_titles = list(title_to_note.keys())
+        found_titles.sort()
+
+        for title in found_titles:
+            result_list.append(title_to_note[title])
+
+        return result_list
