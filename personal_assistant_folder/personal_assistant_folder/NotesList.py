@@ -40,10 +40,9 @@ class NotesList:
                     self.noteslist.remove(note)
         except ValueError:
             pass
-
     def find_note(self, value):
         found_notes = []
         for note in self.noteslist:
-            if value in note.title or value in note.content.value:
+            if value in note.title.value or value in note.content.value:
                 found_notes.append(note)
         return found_notes        
