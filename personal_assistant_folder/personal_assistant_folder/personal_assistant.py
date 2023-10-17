@@ -1,21 +1,19 @@
-from sorting_files.Sorting import Sorting
+from Menu import show_menu
+from AddressBook import AddressBook
+from NotesList import NotesList
 
 """
 PythonCore 17 group №6 personal assistant project
 """
 
-"""
-Данный код носит временный характер для теста работы кода.
-"""
-while True:
-    command = input('Path to folder for sorting: ')
+# BASE CONCTANTS
+FILE_CONTACTS = 'contacts.bin'
+FILE_NOTES = 'notes.bin'
+ITEMS_PER_PAGE = 10
 
-    if command in ('stop', 'exit'):
-        break
+# Initializing objects
+addressbook = AddressBook(FILE_CONTACTS)
+noteslist = NotesList(FILE_NOTES)
 
-    if command.startswith('sort'):
-        command = command.split(' ')
-        sorting = Sorting(command[1])
-        sorting.sort()
-        print('Finish')
-        break
+# Start menu
+show_menu(addressbook, noteslist, ITEMS_PER_PAGE)

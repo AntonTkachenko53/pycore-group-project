@@ -7,23 +7,21 @@ class AddressBook:
     MAX_LENGTH_ADD = 5
 
     def __init__(self, filename):
-        self.records = Serialization.load_from_file(filename)
         self.filename = filename
+        self.records = Serialization.load_from_file(self.filename)
 
     def add_record(self, user_input):
         """
         тут введений інпут може містити тільки значення, від двох до п'яти, котрі записуються в record,
         
         порядок наступний: name, phone, далі ключові аргументи, котрі за замовчуванням = None: birthday, email, address.
-        '''
+        """
         commands = user_input.strip().split(';')
-        
         if not (self.MIN_LENGTH_ADD <= len(commands) <= self.MAX_LENGTH_ADD):
             raise ValueError('Enter correct info to add a record')
 
         name, phone, *args = commands  # Розпакування перших двох значень та всіх інших у змінну args
 
-        Serialization.save_to_file(self.records, self.filename)
 
         for record in self.records:
             if name == record.name._value:
@@ -32,10 +30,16 @@ class AddressBook:
         try:
             contact = Record(name, phone, *args)
             self.records.append(contact)
+            Serialization.save_to_file(self.records, self.filename)
         except ValueError:
             raise ValueError('Invalid info to create a record')
 
-    def find_record(self, searching_str: str):
+    def find_record(self, value):
+        for record in self.records:
+            if str(record.name) == value:
+                return record
+
+    def find_records(self, searching_str: str):
         result = [
             record for record in self.records if
             searching_str in f"{record.name._value} {record.phone._value} "
@@ -43,6 +47,10 @@ class AddressBook:
                              f"{record.email._value if record.email else ''} "
                              f"{record.address._value if record.address else ''}"
         ]
+
+        if not result:
+            result.append('Nothing found!')
+
         return result
 
     def delete_record(self, record_to_delete: str):
@@ -91,7 +99,9 @@ class AddressBook:
                 elif field == 'address':
                     record_to_edit.address.value = data
                 else:
-                    raise ValueError
+                    raise ValueError("Invalid field name for editing")
+
+            Serialization.save_to_file(self.records, self.filename)
 
         except ValueError:
             raise ValueError("Invalid data for editing\nExample: name;phone;birthday;email;address, or a single one")

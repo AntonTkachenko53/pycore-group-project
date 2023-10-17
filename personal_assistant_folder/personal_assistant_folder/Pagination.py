@@ -1,5 +1,6 @@
 import math
 
+
 class Paginator:
     def __init__(self, data: list, num_of_records=5):
         self.data = data
