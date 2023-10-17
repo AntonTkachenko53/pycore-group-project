@@ -33,22 +33,6 @@ class Note:
         if self.check_tag(value):
             self.tags.discard(Tag(value))
 
-    def add_edit(self, field_name, value):
-        try:
-            if hasattr(self, field_name):
-                setattr(self, field_name, value)
-        except ValueError:
-            raise ValueError('invalid data to edit')
-
-    def remove(self, field_name):
-        if field_name == 'title':
-            raise ValueError('You can`t delete note`s title')
-        try:
-            if hasattr(self, field_name):
-                setattr(self, field_name, None)
-        except ValueError:
-            raise ValueError('invalid field name to remove')
-
     def __str__(self):
         tags_str = ', '.join(str(tag) for tag in self.tags) if self.tags else ''
         return f'Title: {self.title}\nContent: {self.content}\nTags: {tags_str}'

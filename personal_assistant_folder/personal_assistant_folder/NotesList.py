@@ -31,28 +31,38 @@ class NotesList:
         except ValueError:
             raise ValueError("Invalid data format\nExample: Title;Content;#tag1,#tag2,#tag3")
 
-    def edit_note(self, note, data, field=None):
-        # Search for a note by title
+    def edit_note(self, note_title, data, field=None):
         note_to_edit = None
-        for obj in self.noteslist:
-            if obj.title.value == note:
-                note_to_edit = obj  # note_to_edit - об'єкт классу Note
+        for note in self.noteslist:
+            if note.title.value == note_title:
+                note_to_edit = note
 
         if not note_to_edit:
-            raise ValueError(f"Note with title '{note}' not found")
+            raise ValueError(f"Note with title '{note_title}' not found")
 
-        if not field:  # Якщо потрібно перезаписати одразу всю нотатку
-            try:
-                note_to_edit.title, note_to_edit.content, new_tags = data.split(';')
-                if new_tags:
-                    note_to_edit.tags.clear()
-                    tags_list = new_tags.split(',')
+        try:
+            if field is None:  # редагування всих полів
+                title, content, tags = data.split(';')
+                note_to_edit.title.value, note_to_edit.content.value = title, content
+                note_to_edit.tags.clear()
+                if tags:
+                    tags_list = tags.split(',')
                     for tag in tags_list:
                         note_to_edit.add_tag(tag)
-            except ValueError:
-                raise ValueError("Invalid data format for editing\nExample: Title;Content;#tag1,#tag2,#tag3")
-        else:  # Якщо редагуемо якесь одне поле
-            note_to_edit.add_edit(field, data)
+            # редагування відповідних полів
+            elif field == 'title':
+                note_to_edit.title.value = data
+            elif field == 'content':
+                note_to_edit.content.value = data
+            elif field == 'tags':
+                note_to_edit.tags.clear()
+                tags_list = data.split(',')
+                for tag in tags_list:
+                    note_to_edit.add_tag(tag)
+            else:
+                raise ValueError("Invalid field name for editing")
+        except ValueError:
+            raise ValueError("Invalid data for editing\nExample: title;content;#tag1,#tag2,#tag3, or single one")
 
     def delete(self, value):
         # !!!Attention!!!
