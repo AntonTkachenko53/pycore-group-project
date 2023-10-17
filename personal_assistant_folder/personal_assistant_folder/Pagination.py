@@ -1,6 +1,6 @@
 class Paginator:
-    def __init__(self, data, num_of_records=5):
-        self.data = list(data.values())
+    def __init__(self, data: list, num_of_records=5):
+        self.data = data
         self.num_of_records = num_of_records
         self.current_page = 0
 
