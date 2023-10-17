@@ -43,3 +43,13 @@ class AddressBook:
         for record in self.records:
             if record_to_delete == record.name._value:
                 self.records.remove(record)
+
+    def get_upcoming_birthday_contacts(self, days):
+        upcoming_birthdays =[]
+        for record in self.records:
+            days_to_birthday = record.birthday.days_to_birthday()
+            if days_to_birthday == days:
+                upcoming_birthdays.append(record)
+        if not upcoming_birthdays:
+            raise ValueError(f"Nothing found!")
+        return upcoming_birthdays
