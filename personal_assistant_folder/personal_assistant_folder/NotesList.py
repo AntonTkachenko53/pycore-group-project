@@ -94,7 +94,7 @@ class NotesList:
             result_list.append(title_to_note[title])
 
         return result_list
-    
+
     def show_all(self, command=None, num_of_records=5):
         paginator = Paginator(self.noteslist, num_of_records)
         if not command:
