@@ -7,8 +7,8 @@ class AddressBook:
     MAX_LENGTH_ADD = 5
 
     def __init__(self, filename):
-        self.records = Serialization.load_from_file(filename)
         self.filename = filename
+        self.records = Serialization.load_from_file(self.filename)
 
     def add_record(self, user_input):
         """
@@ -22,7 +22,6 @@ class AddressBook:
 
         name, phone, *args = commands  # Розпакування перших двох значень та всіх інших у змінну args
 
-        Serialization.save_to_file(self.records, self.filename)
 
         for record in self.records:
             if name == record.name._value:
@@ -31,6 +30,7 @@ class AddressBook:
         try:
             contact = Record(name, phone, *args)
             self.records.append(contact)
+            Serialization.save_to_file(self.records, self.filename)
         except ValueError:
             raise ValueError('Invalid info to create a record')
 
@@ -99,7 +99,9 @@ class AddressBook:
                 elif field == 'address':
                     record_to_edit.address.value = data
                 else:
-                    raise ValueError
+                    raise ValueError("Invalid field name for editing")
+
+            Serialization.save_to_file(self.records, self.filename)
 
         except ValueError:
             raise ValueError("Invalid data for editing\nExample: name;phone;birthday;email;address, or a single one")

@@ -1,9 +1,11 @@
 from Note import Note
+from Serialization import Serialization
 
 
 class NotesList:
-    def __init__(self, file_name=None):
-        self.noteslist = list()
+    def __init__(self, filename):
+        self.filename = filename
+        self.noteslist = Serialization.load_from_file(self.filename)
 
     def _unique_title(self, value):
         for note in self.noteslist:
@@ -27,6 +29,8 @@ class NotesList:
                     note.add_tag(tag)
 
             self.noteslist.append(note)
+
+            Serialization.save_to_file(self.noteslist, self.filename)
 
         except ValueError:
             raise ValueError("Invalid data format\nExample: Title;Content;#tag1,#tag2,#tag3")
@@ -61,6 +65,9 @@ class NotesList:
                     note_to_edit.add_tag(tag)
             else:
                 raise ValueError("Invalid field name for editing")
+
+            Serialization.save_to_file(self.noteslist, self.filename)
+
         except ValueError:
             raise ValueError("Invalid data for editing\nExample: title;content;#tag1,#tag2,#tag3, or single one")
 
@@ -71,6 +78,9 @@ class NotesList:
             for note in self.noteslist:
                 if str(note.title) == value:
                     self.noteslist.remove(note)
+
+            Serialization.save_to_file(self.noteslist, self.filename)
+
         except ValueError:
             pass
 
