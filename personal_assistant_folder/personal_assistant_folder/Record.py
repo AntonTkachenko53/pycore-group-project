@@ -14,5 +14,5 @@ class Record:
         self.address = Address(address) if address else None
 
     def __str__(self):
-        return (f"Name: {self.name}, Phone: {self.phone}, Birthday: {self.birthday}, "
-                f"Email: {self.email}, Address: {self.address}")
+        return (f"Name: {self.name}\nPhone: {self.phone}\nBirthday: {self.birthday}\n"
+                f"Email: {self.email}\nAddress: {self.address}")

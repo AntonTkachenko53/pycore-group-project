@@ -87,7 +87,7 @@ def record_paginator(paginator):
         print()
         print(message)
         print()
-        action = input("Enter 'p' - prev page, 'n' - next page, 'q' - for exit: ")
+        action = input("Enter 'p' - prev page, 'n' - next page, 'q' - for exit: ").lower()
         if action == 'q':
             break
         paginator.move(action)
@@ -136,8 +136,8 @@ def submenu_addressbook(addressbook, items_per_page):
             while True:
                 clear_console()
 
-                choose_record = input('Enter title: ')
-                current_record = addressbook.find_note(choose_record)
+                choose_record = input('Enter Title: ')
+                current_record = addressbook.find_record(choose_record)
                 print()
                 print(current_record)
                 print()
@@ -151,7 +151,7 @@ def submenu_addressbook(addressbook, items_per_page):
                         print('Edit whole Contact')
                         print('Example: name;phone;birthday;email;address')
                         command = input("Enter info: ")
-                        addressbook.edit_record(command)
+                        addressbook.edit_record(current_record, command)
                     except ValueError as e:
                         print(e)
                     wait_to_continue()
@@ -160,7 +160,7 @@ def submenu_addressbook(addressbook, items_per_page):
                     try:
                         print('Edit Name')
                         command = input("Enter Name: ")
-                        addressbook.edit_record(command, 'name')
+                        addressbook.edit_record(current_record, command, 'name')
                     except ValueError as e:
                         print(e)
                     wait_to_continue()
@@ -168,8 +168,8 @@ def submenu_addressbook(addressbook, items_per_page):
                     clear_console()
                     try:
                         print('Edit Phone')
-                        command = input("Enter content: ")
-                        addressbook.edit_record(command, 'phone')
+                        command = input("Enter phone: ")
+                        addressbook.edit_record(current_record, command, 'phone')
                     except ValueError as e:
                         print(e)
                     wait_to_continue()
@@ -178,7 +178,7 @@ def submenu_addressbook(addressbook, items_per_page):
                     try:
                         print('Edit Email')
                         command = input("Enter email: ")
-                        addressbook.edit_record(command, 'email')
+                        addressbook.edit_record(current_record, command, 'email')
                     except ValueError as e:
                         print(e)
                     wait_to_continue()
@@ -187,7 +187,7 @@ def submenu_addressbook(addressbook, items_per_page):
                     try:
                         print('Edit Address')
                         command = input("Enter address: ")
-                        addressbook.edit_record(command, 'address')
+                        addressbook.edit_record(current_record, command, 'address')
                     except ValueError as e:
                         print(e)
                     wait_to_continue()
@@ -195,8 +195,8 @@ def submenu_addressbook(addressbook, items_per_page):
                     clear_console()
                     try:
                         print('Edit Birthday')
-                        command = input("Enter birthday date: ")
-                        addressbook.edit_record(command, 'birthday')
+                        command = input("Enter birthday date (dd.mm.yyyy): ")
+                        addressbook.edit_record(current_record, command, 'birthday')
                     except ValueError as e:
                         print(e)
                     wait_to_continue()
@@ -230,7 +230,7 @@ def submenu_addressbook(addressbook, items_per_page):
             clear_console()
 
             try:
-                command = int(input("Enter count days: "))
+                command = input("Enter count days: ")
                 contacts = addressbook.get_upcoming_birthday_contacts(command)
 
                 records_by_pages = Paginator(contacts, items_per_page)
@@ -239,7 +239,6 @@ def submenu_addressbook(addressbook, items_per_page):
                 print(e)
 
             wait_to_continue()
-            "get_upcoming_birthday_contacts"
 
         elif choice2 == "7":
             clear_console()
@@ -279,7 +278,7 @@ def submenu_notes(noteslist, items_per_page):
 
             try:
                 command = input("Enter info: ")
-                note = noteslist.add(command)
+                noteslist.add(command)
             except ValueError as e:
                 print(e)
 
@@ -307,7 +306,7 @@ def submenu_notes(noteslist, items_per_page):
                         print('Edit whole Note')
                         print('Example: title;content;#tag1,#tag2')
                         command = input("Enter info: ")
-                        noteslist.edit_note(command)
+                        noteslist.edit_note(current_note, command)
                     except ValueError as e:
                         print(e)
                     wait_to_continue()
@@ -315,8 +314,8 @@ def submenu_notes(noteslist, items_per_page):
                     clear_console()
                     try:
                         print('Edit Title')
-                        command = input("Enter content: ")
-                        noteslist.edit_note(command, 'title')
+                        command = input("Enter Title: ")
+                        noteslist.edit_note(current_note, command, 'title')
                     except ValueError as e:
                         print(e)
                     wait_to_continue()
@@ -325,7 +324,7 @@ def submenu_notes(noteslist, items_per_page):
                     try:
                         print('Edit Content')
                         command = input("Enter content: ")
-                        noteslist.edit_note(command, 'content')
+                        noteslist.edit_note(current_note, command, 'content')
                     except ValueError as e:
                         print(e)
                     wait_to_continue()
@@ -334,7 +333,7 @@ def submenu_notes(noteslist, items_per_page):
                     try:
                         print('Edit Tags')
                         command = input("Enter content: ")
-                        noteslist.edit_note(command, 'tags')
+                        noteslist.edit_note(current_note, command, 'tags')
                     except ValueError as e:
                         print(e)
                     wait_to_continue()
@@ -386,9 +385,9 @@ def submenu_sorting():
         print("--------------------")
         print()
 
-        choice2 = input("Folder path (or 'exit'): ")
+        choice2 = input("Folder path (or 'exit / q'): ")
 
-        if choice2 == "exit":
+        if choice2.lower() in ["exit", 'q']:
             clear_console()
             break
         else:
