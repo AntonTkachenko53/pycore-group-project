@@ -5,10 +5,10 @@ from Serialization import Serialization
 class AddressBook:
     MIN_LENGTH_ADD = 2
     MAX_LENGTH_ADD = 5
-    DEFAULT_FILENAME = 'address_book.bin'
 
-    def __init__(self):
-        self.records = Serialization.load_from_file(self.DEFAULT_FILENAME)
+    def __init__(self, filename):
+        self.records = Serialization.load_from_file(filename)
+        self.filename = filename
 
     def add_record(self, user_input):
         """
@@ -21,7 +21,7 @@ class AddressBook:
 
         name, phone, *args = commands  # Розпакування перших двох значень та всіх інших у змінну args
 
-        Serialization.save_to_file(self.records, self.DEFAULT_FILENAME)
+        Serialization.save_to_file(self.records, self.filename)
 
         for record in self.records:
             if name == record.name._value:
@@ -48,4 +48,4 @@ class AddressBook:
             if record_to_delete == record.name._value:
                 self.records.remove(record)
 
-        Serialization.save_to_file(self.records, self.DEFAULT_FILENAME)
+        Serialization.save_to_file(self.records, self.filename)
