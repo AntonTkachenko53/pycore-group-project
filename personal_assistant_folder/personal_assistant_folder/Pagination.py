@@ -17,8 +17,12 @@ class Paginator:
         return page_data
 
     def move(self, direction):
-        if direction == 'n' and (self.current_page + 1) * self.num_of_records < len(self.data):
-            self.current_page += 1
+        if direction == 'n':
+            next_page = (self.current_page + 1) * self.num_of_records
+            if next_page < len(self.data):
+                self.current_page += 1
+            else:
+                print('You are on the last page.')
         elif direction == 'p' and self.current_page > 0:
             self.current_page -= 1
         elif direction == 'q':
