@@ -1,23 +1,29 @@
 from Record import Record
+from Serialization import Serialization
 
 
 class AddressBook:
     MIN_LENGTH_ADD = 2
     MAX_LENGTH_ADD = 5
 
-    def __init__(self):
-        self.records = list()
+    def __init__(self, filename):
+        self.records = Serialization.load_from_file(filename)
+        self.filename = filename
 
     def add_record(self, user_input):
-        '''
+        """
         тут введений інпут може містити тільки значення, від двох до п'яти, котрі записуються в record,
-        порядок наступний: name;phone, далі ключові аргументи, котрі за замовчуванням = None: birthday;email;address.
+        
+        порядок наступний: name, phone, далі ключові аргументи, котрі за замовчуванням = None: birthday, email, address.
         '''
         commands = user_input.strip().split(';')
+        
         if not (self.MIN_LENGTH_ADD <= len(commands) <= self.MAX_LENGTH_ADD):
             raise ValueError('Enter correct info to add a record')
 
         name, phone, *args = commands  # Розпакування перших двох значень та всіх інших у змінну args
+
+        Serialization.save_to_file(self.records, self.filename)
 
         for record in self.records:
             if name == record.name._value:
@@ -44,6 +50,8 @@ class AddressBook:
             if record_to_delete == record.name._value:
                 self.records.remove(record)
 
+        Serialization.save_to_file(self.records, self.filename)
+        
     def edit_record(self, record_name, data, field=None):
         # Пошук запису за ім'ям
         record_to_edit = next((record for record in self.records if record.name.value == record_name), None)
