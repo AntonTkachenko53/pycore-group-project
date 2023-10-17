@@ -94,20 +94,3 @@ class NotesList:
             result_list.append(title_to_note[title])
 
         return result_list
-
-    def show_all(self, command=None, num_of_records=5):
-        paginator = Paginator(self.noteslist, num_of_records)
-        if not command:
-            try:
-                current_page = next(paginator)
-            except StopIteration:
-                raise StopIteration('No info to show')
-        elif command in ['n', 'p', 'q']:
-            try:
-                paginator.move(command)
-                current_page = next(paginator)
-            except StopIteration:
-                raise StopIteration('Showing stopped: quit called or end of notes')
-        else:
-            raise ValueError('Invalid command.')
-        return current_page
