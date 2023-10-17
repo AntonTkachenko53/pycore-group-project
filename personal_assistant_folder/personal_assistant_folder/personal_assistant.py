@@ -6,7 +6,7 @@ from NotesList import NotesList
 PythonCore 17 group №6 personal assistant project
 """
 
-# BASE CONCTANTS
+# BASE CONSTANTS
 FILE_CONTACTS = 'contacts.bin'
 FILE_NOTES = 'notes.bin'
 ITEMS_PER_PAGE = 10
