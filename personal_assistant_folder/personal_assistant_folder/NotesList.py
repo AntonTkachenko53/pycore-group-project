@@ -1,14 +1,15 @@
 from Note import Note
+from Pagination import Paginator
 
 
 class NotesList:
     def __init__(self):
         self.noteslist = list()
 
-    # def _unique_title(self, value):
-    #     for note in self.noteslist:
-    #         if str(note.title) == value:
-    #             raise ValueError('This Title already exist!')
+    def _unique_title(self, value):
+        for note in self.noteslist:
+            if str(note.title) == value:
+                raise ValueError('This Title already exist!')
 
     def add(self, value):
         # !!!Attention!!!
@@ -18,7 +19,7 @@ class NotesList:
 
         try:
             title, content, tags = value.split(';')
-
+            self._unique_title(title)  # Перевірка на унікальність title
             note = Note(title, content)
 
             if tags:
@@ -33,7 +34,7 @@ class NotesList:
 
     def edit_note(self, title, new_value):
         # Search for a note by title
-        note_to_edit = next((note for note in self.noteslist if note.title == title), None)
+        note_to_edit = next((note for note in self.noteslist if note.title.value == title), None)
 
         if not note_to_edit:
             # If a note with the specified title is not found, raise an exception
@@ -93,3 +94,20 @@ class NotesList:
             result_list.append(title_to_note[title])
 
         return result_list
+    
+    def show_all(self, command=None, num_of_records=5):
+        paginator = Paginator(self.noteslist, num_of_records)
+        if not command:
+            try:
+                current_page = next(paginator)
+            except StopIteration:
+                raise StopIteration('No info to show')
+        elif command in ['n', 'p', 'q']:
+            try:
+                paginator.move(command)
+                current_page = next(paginator)
+            except StopIteration:
+                raise StopIteration('Showing stopped: quit called or end of notes')
+        else:
+            raise ValueError('Invalid command.')
+        return current_page

@@ -43,13 +43,19 @@ class AddressBook:
             if record_to_delete == record.name._value:
                 self.records.remove(record)
 
-    def show_all_by_pages(self, command, num_of_records=5):
-        if command in ['n', 'p', 'q']:
+    def show_all(self, command=None, num_of_records=5):
+        paginator = Paginator(self.records, num_of_records)
+        if not command:
             try:
-                paginator = Paginator(self.records, num_of_records)
                 current_page = next(paginator)
+            except StopIteration:
+                raise StopIteration('No info to show')
+        elif command in ['n', 'p', 'q']:
+            try:
                 paginator.move(command)
+                current_page = next(paginator)
             except StopIteration:
                 raise StopIteration('Showing stopped: quit called or end of records')
         else:
             raise ValueError('Invalid command.')
+        return current_page
