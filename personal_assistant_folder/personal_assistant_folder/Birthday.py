@@ -12,7 +12,7 @@ class Birthday(Field):
         except ValueError:
             raise ValueError("correct format is 03.10.1990")
 
-    def day_to_birthday(self):
+    def days_to_birthday(self):
         current_date = datetime.date.today()
         next_birthday = datetime.datetime.strptime(self._value, '%d.%m.%Y').date().replace(year=current_date.year)
         if next_birthday < current_date:
