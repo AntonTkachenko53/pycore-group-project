@@ -2,7 +2,7 @@ from Note import Note
 
 
 class NotesList:
-    def __init__(self):
+    def __init__(self, file_name=None):
         self.noteslist = list()
 
     def _unique_title(self, value):
@@ -69,10 +69,19 @@ class NotesList:
             pass
 
     def find_note(self, value):
+        for note in self.noteslist:
+            if str(note.title) == value:
+                return note
+
+    def find_notes(self, value):
         found_notes = []
         for note in self.noteslist:
             if value in note.title.value or value in note.content.value:
                 found_notes.append(note)
+
+        if not found_notes:
+            found_notes.append('Nothing found!')
+
         return found_notes
 
     def find_sort(self, value: str):

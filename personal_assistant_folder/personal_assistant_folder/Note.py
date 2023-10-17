@@ -14,6 +14,8 @@ class Note:
         Add new tag in tags list for note
         :param value: new tag
         """
+        value = value.strip()
+
         if not self.check_tag(value):
             self.tags.add(Tag(value))
 
@@ -23,6 +25,8 @@ class Note:
         :param value: it`s tag which need check
         :return: True if it has. False if not
         """
+        value = value.strip()
+
         return True if Tag(value) in self.tags else False
 
     def delete_tag(self, value):
@@ -30,6 +34,8 @@ class Note:
         Delete tag from tags list for note
         :param value: tag
         """
+        value = value.strip()
+
         if self.check_tag(value):
             self.tags.discard(Tag(value))
 

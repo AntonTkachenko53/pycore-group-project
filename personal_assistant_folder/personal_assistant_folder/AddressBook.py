@@ -5,15 +5,15 @@ class AddressBook:
     MIN_LENGTH_ADD = 2
     MAX_LENGTH_ADD = 5
 
-    def __init__(self):
+    def __init__(self, file_name=None):
         self.records = list()
 
     def add_record(self, user_input):
-        '''
+        """
         тут введений інпут може містити тільки значення, від двох до п'яти, котрі записуються в record,
         порядок наступний: name, phone, далі ключові аргументи, котрі за замовчуванням = None: birthday, email, address.
-        '''
-        commands = user_input.strip().split(' ')
+        """
+        commands = user_input.strip().split(';')
         if not (self.MIN_LENGTH_ADD <= len(commands) <= self.MAX_LENGTH_ADD):
             raise ValueError('Enter correct info to add a record')
 
@@ -29,7 +29,12 @@ class AddressBook:
         except ValueError:
             raise ValueError('Invalid info to create a record')
 
-    def find_record(self, searching_str: str):
+    def find_record(self, value):
+        for record in self.records:
+            if str(record.name) == value:
+                return record
+
+    def find_records(self, searching_str: str):
         result = [
             record for record in self.records if
             searching_str in f"{record.name._value} {record.phone._value} "
@@ -37,6 +42,10 @@ class AddressBook:
                              f"{record.email._value if record.email else ''} "
                              f"{record.address._value if record.address else ''}"
         ]
+
+        if not result:
+            result.append('Nothing found!')
+
         return result
 
     def delete_record(self, record_to_delete: str):
