@@ -22,7 +22,6 @@ class AddressBook:
 
         name, phone, *args = commands  # Розпакування перших двох значень та всіх інших у змінну args
 
-
         for record in self.records:
             if name == record.name._value:
                 raise ValueError('Contact with this name already exists')
@@ -59,12 +58,9 @@ class AddressBook:
                 self.records.remove(record)
 
         Serialization.save_to_file(self.records, self.filename)
-        
-    def edit_record(self, record_name, data, field=None):
-        # Пошук запису за ім'ям
-        record_to_edit = next((record for record in self.records if record.name.value == record_name), None)
 
-        if not record_to_edit:
+    def edit_record(self, record_name, data, field=None):
+        if not record_name:
             raise ValueError(f"Record with name '{record_name}' not found")
 
         try:
@@ -74,30 +70,30 @@ class AddressBook:
                     raise ValueError('Enter correct info to edit a record')
 
                 # Оновити запис в залежності від кількості аргументів
-                record_to_edit.name.value = commands[0]
-                record_to_edit.phone.value = commands[1]
+                record_name.name.value = commands[0]
+                record_name.phone.value = commands[1]
 
                 if len(commands) >= 3:
-                    record_to_edit.birthday.value = commands[2]
+                    record_name.birthday.value = commands[2]
 
                 if len(commands) >= 4:
-                    record_to_edit.email.value = commands[3]
+                    record_name.email.value = commands[3]
 
                 if len(commands) == 5:
-                    record_to_edit.address.value = commands[4]
+                    record_name.address.value = commands[4]
 
             # Оновити конкретне поле, якщо вказано
             else:
                 if field == 'name':
-                    record_to_edit.name.value = data
+                    record_name.name.value = data
                 elif field == 'phone':
-                    record_to_edit.phone.value = data
+                    record_name.phone.value = data
                 elif field == 'birthday':
-                    record_to_edit.birthday.value = data
+                    record_name.birthday.value = data
                 elif field == 'email':
-                    record_to_edit.email.value = data
+                    record_name.email.value = data
                 elif field == 'address':
-                    record_to_edit.address.value = data
+                    record_name.address.value = data
                 else:
                     raise ValueError("Invalid field name for editing")
 
@@ -107,7 +103,7 @@ class AddressBook:
             raise ValueError("Invalid data for editing\nExample: name;phone;birthday;email;address, or a single one")
 
     def get_upcoming_birthday_contacts(self, days):
-        upcoming_birthdays =[]
+        upcoming_birthdays = []
         for record in self.records:
             days_to_birthday = record.birthday.days_to_birthday()
             if days_to_birthday == days:

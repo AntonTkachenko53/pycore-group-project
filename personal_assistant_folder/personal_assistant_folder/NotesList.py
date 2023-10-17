@@ -35,34 +35,26 @@ class NotesList:
         except ValueError:
             raise ValueError("Invalid data format\nExample: Title;Content;#tag1,#tag2,#tag3")
 
-    def edit_note(self, note_title, data, field=None):
-        note_to_edit = None
-        for note in self.noteslist:
-            if note.title.value == note_title:
-                note_to_edit = note
-
-        if not note_to_edit:
-            raise ValueError(f"Note with title '{note_title}' not found")
-
+    def edit_note(self, note, data, field=None):
         try:
             if field is None:  # редагування всих полів
                 title, content, tags = data.split(';')
-                note_to_edit.title.value, note_to_edit.content.value = title, content
-                note_to_edit.tags.clear()
+                note.title.value, note.content.value = title, content
+                note.tags.clear()
                 if tags:
                     tags_list = tags.split(',')
                     for tag in tags_list:
-                        note_to_edit.add_tag(tag)
+                        note.add_tag(tag)
             # редагування відповідних полів
             elif field == 'title':
-                note_to_edit.title.value = data
+                note.title.value = data
             elif field == 'content':
-                note_to_edit.content.value = data
+                note.content.value = data
             elif field == 'tags':
-                note_to_edit.tags.clear()
+                note.tags.clear()
                 tags_list = data.split(',')
                 for tag in tags_list:
-                    note_to_edit.add_tag(tag)
+                    note.add_tag(tag)
             else:
                 raise ValueError("Invalid field name for editing")
 
