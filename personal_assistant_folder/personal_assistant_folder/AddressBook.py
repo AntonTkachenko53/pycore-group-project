@@ -87,3 +87,13 @@ class AddressBook:
 
         except ValueError:
             raise ValueError("Invalid data for editing\nExample: name;phone;birthday;email;address, or a single one")
+
+    def get_upcoming_birthday_contacts(self, days):
+        upcoming_birthdays =[]
+        for record in self.records:
+            days_to_birthday = record.birthday.days_to_birthday()
+            if days_to_birthday == days:
+                upcoming_birthdays.append(record)
+        if not upcoming_birthdays:
+            raise ValueError(f"Nothing found!")
+        return upcoming_birthdays
