@@ -31,32 +31,28 @@ class NotesList:
         except ValueError:
             raise ValueError("Invalid data format\nExample: Title;Content;#tag1,#tag2,#tag3")
 
-    def edit_note(self, title, new_value):
+    def edit_note(self, note, data, field=None):
         # Search for a note by title
-        note_to_edit = next((note for note in self.noteslist if note.title.value == title), None)
+        note_to_edit = None
+        for obj in self.noteslist:
+            if obj.title.value == note:
+                note_to_edit = obj  # note_to_edit - об'єкт классу Note
 
         if not note_to_edit:
-            # If a note with the specified title is not found, raise an exception
-            raise ValueError(f"Note with title '{title}' not found")
+            raise ValueError(f"Note with title '{note}' not found")
 
-        # Split the new value into title, content, and tags using the delimiter ";"
-        try:
-            new_title, new_content, new_tags = new_value.split(';')
-        except ValueError:
-            raise ValueError("Invalid data format for editing\nExample: Title;Content;#tag1,#tag2,#tag3")
-
-        # Update the title and content of the note
-        note_to_edit.title = new_title
-        note_to_edit.content = new_content
-
-        # Clear the list of note tags
-        note_to_edit.tags.clear()
-
-        # If there are new tags, split them by comma and add them to the note
-        if new_tags:
-            tags_list = new_tags.split(',')
-            for tag in tags_list:
-                note_to_edit.add_tag(tag)
+        if not field:  # Якщо потрібно перезаписати одразу всю нотатку
+            try:
+                note_to_edit.title, note_to_edit.content, new_tags = data.split(';')
+                if new_tags:
+                    note_to_edit.tags.clear()
+                    tags_list = new_tags.split(',')
+                    for tag in tags_list:
+                        note_to_edit.add_tag(tag)
+            except ValueError:
+                raise ValueError("Invalid data format for editing\nExample: Title;Content;#tag1,#tag2,#tag3")
+        else:  # Якщо редагуемо якесь одне поле
+            note_to_edit.add_edit(field, data)
 
     def delete(self, value):
         # !!!Attention!!!
