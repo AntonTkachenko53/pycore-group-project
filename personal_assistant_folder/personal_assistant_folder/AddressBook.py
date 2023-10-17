@@ -34,7 +34,9 @@ class AddressBook:
         result = [
             record for record in self.records if
             searching_str in f"{record.name._value} {record.phone._value} "
-                             f"{record.birthday._value} {record.email._value} {record.address._value}"
+                             f"{record.birthday._value if record.birthday else ''} "
+                             f"{record.email._value if record.email else ''} "
+                             f"{record.address._value if record.address else ''}"
         ]
         return result
 
