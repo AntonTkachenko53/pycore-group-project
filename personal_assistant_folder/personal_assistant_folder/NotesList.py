@@ -31,32 +31,38 @@ class NotesList:
         except ValueError:
             raise ValueError("Invalid data format\nExample: Title;Content;#tag1,#tag2,#tag3")
 
-    def edit_note(self, title, new_value):
-        # Search for a note by title
-        note_to_edit = next((note for note in self.noteslist if note.title.value == title), None)
+    def edit_note(self, note_title, data, field=None):
+        note_to_edit = None
+        for note in self.noteslist:
+            if note.title.value == note_title:
+                note_to_edit = note
 
         if not note_to_edit:
-            # If a note with the specified title is not found, raise an exception
-            raise ValueError(f"Note with title '{title}' not found")
+            raise ValueError(f"Note with title '{note_title}' not found")
 
-        # Split the new value into title, content, and tags using the delimiter ";"
         try:
-            new_title, new_content, new_tags = new_value.split(';')
+            if field is None:  # редагування всих полів
+                title, content, tags = data.split(';')
+                note_to_edit.title.value, note_to_edit.content.value = title, content
+                note_to_edit.tags.clear()
+                if tags:
+                    tags_list = tags.split(',')
+                    for tag in tags_list:
+                        note_to_edit.add_tag(tag)
+            # редагування відповідних полів
+            elif field == 'title':
+                note_to_edit.title.value = data
+            elif field == 'content':
+                note_to_edit.content.value = data
+            elif field == 'tags':
+                note_to_edit.tags.clear()
+                tags_list = data.split(',')
+                for tag in tags_list:
+                    note_to_edit.add_tag(tag)
+            else:
+                raise ValueError("Invalid field name for editing")
         except ValueError:
-            raise ValueError("Invalid data format for editing\nExample: Title;Content;#tag1,#tag2,#tag3")
-
-        # Update the title and content of the note
-        note_to_edit.title = new_title
-        note_to_edit.content = new_content
-
-        # Clear the list of note tags
-        note_to_edit.tags.clear()
-
-        # If there are new tags, split them by comma and add them to the note
-        if new_tags:
-            tags_list = new_tags.split(',')
-            for tag in tags_list:
-                note_to_edit.add_tag(tag)
+            raise ValueError("Invalid data for editing\nExample: title;content;#tag1,#tag2,#tag3, or single one")
 
     def delete(self, value):
         # !!!Attention!!!
