@@ -1,5 +1,4 @@
 from Note import Note
-from Pagination import Paginator
 
 
 class NotesList:

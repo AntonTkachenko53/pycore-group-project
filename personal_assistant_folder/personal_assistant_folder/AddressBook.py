@@ -1,5 +1,4 @@
 from Record import Record
-from Pagination import Paginator
 
 
 class AddressBook:
