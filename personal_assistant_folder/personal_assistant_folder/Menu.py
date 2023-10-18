@@ -1,6 +1,6 @@
 import os
-from sorting_files.Sorting import Sorting
-from Pagination import Paginator
+from personal_assistant_folder.sorting_files.Sorting import Sorting
+from personal_assistant_folder.Pagination import Paginator
 
 menu_main = [
     "*** Menu ***",

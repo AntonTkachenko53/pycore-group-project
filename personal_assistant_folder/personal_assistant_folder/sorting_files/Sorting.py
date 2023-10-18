@@ -1,7 +1,7 @@
 import shutil
 import sys
-from sorting_files.Scanner import Scanner
-from sorting_files.NormalizeName import NormalizeName
+from personal_assistant_folder.sorting_files.Scanner import Scanner
+from personal_assistant_folder.sorting_files.NormalizeName import NormalizeName
 from pathlib import Path
 
 

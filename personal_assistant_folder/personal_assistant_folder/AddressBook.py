@@ -1,5 +1,5 @@
-from Record import Record
-from Serialization import Serialization
+from personal_assistant_folder.Record import Record
+from personal_assistant_folder.Serialization import Serialization
 
 
 class AddressBook:
