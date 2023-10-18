@@ -6,7 +6,7 @@ setup(name='personal_assistant',
       author='pycore17 group 6',
       description='Manage your Address book, Notes list, sort your files',
       entry_points={
-          'console_scripts': ['personal-assistant = personal_assistant.personal_assistant:show_menu']
+          'console_scripts': ['personal-assistant = personal_assistant_folder.personal_assistant:show_menu']
 
 
       }
