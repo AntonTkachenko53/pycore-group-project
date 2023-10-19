@@ -41,4 +41,6 @@ class Note:
 
     def __str__(self):
         tags_str = ', '.join(str(tag) for tag in self.tags) if self.tags else ''
-        return f'Title: {self.title}\nContent: {self.content}\nTags: {tags_str}'
+        return (f"{'Title:'.ljust(8)} {self.title}\n"
+                f"{'Content:'.ljust(8)} {self.content}\n"
+                f"{'Tags:'.ljust(8)} {tags_str}")

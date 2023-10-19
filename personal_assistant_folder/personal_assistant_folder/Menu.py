@@ -2,6 +2,8 @@ import os
 from personal_assistant_folder.sorting_files.Sorting import Sorting
 from personal_assistant_folder.Pagination import Paginator
 
+EMPTY_MESSAGE = 'List is empty ...'
+
 menu_main = [
     "*** Menu ***",
     "1. AddressBook",
@@ -67,10 +69,20 @@ def wait_to_continue():
 
 
 def print_menu_items(list) -> None:
-    print("------------------")
-    for item in list:
-        print(item)
-    print("------------------")
+    max_length = 0
+    for i in list:
+        if len(i) > max_length:
+            max_length = len(i)
+
+    print("-" * max_length)
+
+    for index, item in enumerate(list):
+        if index == 0:
+            print(item.center(max_length))
+            print("-" * max_length)
+        else:
+            print(item)
+    print("-" * max_length)
     print()
 
 
@@ -81,9 +93,10 @@ def record_paginator(paginator):
         message = f'Page {paginator.current_page} from {paginator.total_pages} pages'
         print(message)
         print()
+        print('-' * 20)
         for item in current_page:
             print(item)
-            print('-----------------')
+            print('-' * 20)
         print()
         print(message)
         print()
@@ -113,6 +126,9 @@ def submenu_addressbook(addressbook, items_per_page):
                 if contacts:
                     notes_paginator = Paginator(contacts, items_per_page)
                     record_paginator(notes_paginator)
+                else:
+                    print('List is empty ...')
+
             except ValueError as e:
                 print(e)
 
@@ -124,7 +140,11 @@ def submenu_addressbook(addressbook, items_per_page):
 
             try:
                 command = input("Enter info: ")
-                addressbook.add_record(command)
+                result = addressbook.add_record(command)
+
+                if result:
+                    print('Note successfully saved')
+
             except ValueError as e:
                 print(e)
 
@@ -136,11 +156,17 @@ def submenu_addressbook(addressbook, items_per_page):
             while True:
                 clear_console()
 
-                choose_record = input('Enter Title: ')
+                choose_record = input('Search contact for editing (Name): ')
                 current_record = addressbook.find_record(choose_record)
+                if not current_record:
+                    print(f"Contact '{choose_record}' isn't found")
+                    wait_to_continue()
+                    break
+
                 print()
                 print(current_record)
                 print()
+
                 print_menu_items(menu_single_contact)
 
                 choice3 = input("Choose an item: ")
@@ -210,21 +236,27 @@ def submenu_addressbook(addressbook, items_per_page):
             clear_console()
 
             try:
-                command = input("Delete (contact name): ")
-                addressbook.delete_record(command)
+                command = input("Delete (contact name: ")
+                result = addressbook.delete_record(command)
+                if result:
+                    print('Contact successfully deleted')
+                else:
+                    print("Contact isn't found")
             except ValueError as e:
                 print(e)
 
             wait_to_continue()
+
         # Show all
         elif choice2 == "5":
             clear_console()
 
-            try:
+            if len(addressbook.records) > 0:
                 records_by_pages = Paginator(addressbook.records, items_per_page)
                 record_paginator(records_by_pages)
-            except ValueError as e:
-                print(e)
+            else:
+                print(EMPTY_MESSAGE)
+                wait_to_continue()
 
         elif choice2 == "6":
             clear_console()
@@ -232,9 +264,12 @@ def submenu_addressbook(addressbook, items_per_page):
             try:
                 command = input("Enter count days: ")
                 contacts = addressbook.get_upcoming_birthday_contacts(command)
+                if len(addressbook.records) > 0:
+                    records_by_pages = Paginator(contacts, items_per_page)
+                    record_paginator(records_by_pages)
+                else:
+                    print(EMPTY_MESSAGE)
 
-                records_by_pages = Paginator(contacts, items_per_page)
-                record_paginator(records_by_pages)
             except ValueError as e:
                 print(e)
 
@@ -266,6 +301,8 @@ def submenu_notes(noteslist, items_per_page):
                 if notes:
                     notes_paginator = Paginator(notes, items_per_page)
                     record_paginator(notes_paginator)
+                else:
+                    print(EMPTY_MESSAGE)
 
             except ValueError as e:
                 print(e)
@@ -278,11 +315,14 @@ def submenu_notes(noteslist, items_per_page):
 
             try:
                 command = input("Enter info: ")
-                noteslist.add(command)
+                result = noteslist.add(command)
+
+                if result:
+                    print('Note successfully saved')
+
             except ValueError as e:
                 print(e)
 
-            print(f"Note was saved")
             wait_to_continue()
 
         # Edit Note
@@ -291,11 +331,18 @@ def submenu_notes(noteslist, items_per_page):
             while True:
                 clear_console()
 
-                choose_note = input('Enter title: ')
+                choose_note = input('Search note for editing (Title): ')
                 current_note = noteslist.find_note(choose_note)
+
+                if not current_note:
+                    print(f"Note '{choose_note}' isn't found")
+                    wait_to_continue()
+                    break
+
                 print()
                 print(current_note)
                 print()
+
                 print_menu_items(menu_single_note)
 
                 choice3 = input("Choose an item: ")
@@ -349,11 +396,13 @@ def submenu_notes(noteslist, items_per_page):
 
             try:
                 command = input("Write Title: ")
-                noteslist.delete(command)
+                result = noteslist.delete(command)
+                if result:
+                    print('Note successfully deleted')
+                else:
+                    print("Note isn't found")
             except ValueError as e:
                 print(e)
-
-            print(f"Note was deleted")
 
             wait_to_continue()
 
@@ -361,8 +410,12 @@ def submenu_notes(noteslist, items_per_page):
             clear_console()
 
             try:
-                notes_paginator = Paginator(noteslist.noteslist, items_per_page)
-                record_paginator(notes_paginator)
+                if len(noteslist.noteslist) > 0:
+                    notes_paginator = Paginator(noteslist.noteslist, items_per_page)
+                    record_paginator(notes_paginator)
+                else:
+                    print(EMPTY_MESSAGE)
+                    wait_to_continue()
             except ValueError as e:
                 print(e)
 

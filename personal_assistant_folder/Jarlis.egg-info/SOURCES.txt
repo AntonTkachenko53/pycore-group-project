@@ -1,11 +1,11 @@
 MANIFEST.in
 README.md
 setup.py
-personal_assistant.egg-info/PKG-INFO
-personal_assistant.egg-info/SOURCES.txt
-personal_assistant.egg-info/dependency_links.txt
-personal_assistant.egg-info/entry_points.txt
-personal_assistant.egg-info/top_level.txt
+Jarlis.egg-info/PKG-INFO
+Jarlis.egg-info/SOURCES.txt
+Jarlis.egg-info/dependency_links.txt
+Jarlis.egg-info/entry_points.txt
+Jarlis.egg-info/top_level.txt
 personal_assistant_folder/Address.py
 personal_assistant_folder/AddressBook.py
 personal_assistant_folder/Birthday.py

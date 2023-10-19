@@ -30,6 +30,7 @@ class AddressBook:
             contact = Record(name, phone, *args)
             self.records.append(contact)
             Serialization.save_to_file(self.records, self.filename)
+            return True
         except ValueError:
             raise ValueError('Invalid info to create a record')
 
@@ -37,6 +38,8 @@ class AddressBook:
         for record in self.records:
             if str(record.name) == value:
                 return record
+
+            return None
 
     def find_records(self, searching_str: str):
         result = [
@@ -53,11 +56,20 @@ class AddressBook:
         return result
 
     def delete_record(self, record_to_delete: str):
-        for record in self.records:
-            if record_to_delete == record.name._value:
-                self.records.remove(record)
 
-        Serialization.save_to_file(self.records, self.filename)
+        try:
+            current_record = self.find_record(record_to_delete)
+
+            if current_record:
+                self.records.remove(note)
+                return True
+
+            return current_record
+
+            Serialization.save_to_file(self.records, self.filename)
+
+        except ValueError:
+            pass
 
     def edit_record(self, record_name, data, field=None):
         if not record_name:

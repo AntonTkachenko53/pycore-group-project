@@ -32,6 +32,8 @@ class NotesList:
 
             Serialization.save_to_file(self.noteslist, self.filename)
 
+            return True
+
         except ValueError:
             raise ValueError("Invalid data format\nExample: Title;Content;#tag1,#tag2,#tag3")
 
@@ -63,23 +65,29 @@ class NotesList:
         except ValueError:
             raise ValueError("Invalid data for editing\nExample: title;content;#tag1,#tag2,#tag3, or single one")
 
+    def find_note(self, value):
+        for note in self.noteslist:
+            if str(note.title) == value:
+                return note
+
+            return None
+
     def delete(self, value):
         # !!!Attention!!!
         # Find and delete Note work only by it title
         try:
-            for note in self.noteslist:
-                if str(note.title) == value:
-                    self.noteslist.remove(note)
+            current_note = self.find_note(value)
+
+            if current_note:
+                self.noteslist.remove(note)
+                return True
+
+            return current_note
 
             Serialization.save_to_file(self.noteslist, self.filename)
 
         except ValueError:
             pass
-
-    def find_note(self, value):
-        for note in self.noteslist:
-            if str(note.title) == value:
-                return note
 
     def find_notes(self, value):
         found_notes = []

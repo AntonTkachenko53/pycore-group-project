@@ -1,0 +1,2 @@
+[console_scripts]
+jarlis = personal_assistant_folder.personal_assistant:init
