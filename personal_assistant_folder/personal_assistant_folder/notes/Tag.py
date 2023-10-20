@@ -7,10 +7,10 @@ class Tag(Field):
 
     def __init__(self, value):
         super().__init__(value)
-        self.validate()
+        self.validate(value)
 
-    def validate(self):
-        tag = self._value.strip()
+    def validate(self, value):
+        tag = value.strip()
 
         if not tag:
             raise ValueError(f"Tag can't be empty")

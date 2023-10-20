@@ -9,6 +9,12 @@ class Note:
         self.content = Content(content)
         self.tags = set()
 
+    def edit_title(self, value):
+        self.title = Title(value)
+
+    def edit_content(self, value):
+        self.content = Content(value)
+
     def add_tag(self, value):
         """
         Add new tag in tags list for note

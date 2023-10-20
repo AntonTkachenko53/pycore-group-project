@@ -41,7 +41,9 @@ class NotesList:
         try:
             if field is None:  # редагування всих полів
                 title, content, tags = data.split(';')
-                note.title.value, note.content.value = title, content
+                note.edit_title(title)
+                note.edit_content(content)
+
                 note.tags.clear()
                 if tags:
                     tags_list = tags.split(',')
@@ -49,9 +51,9 @@ class NotesList:
                         note.add_tag(tag)
             # редагування відповідних полів
             elif field == 'title':
-                note.title.value = data
+                note.edit_title(data)
             elif field == 'content':
-                note.content.value = data
+                note.edit_title(data)
             elif field == 'tags':
                 note.tags.clear()
                 tags_list = data.split(',')
@@ -62,6 +64,8 @@ class NotesList:
 
             Serialization.save_to_file(self.noteslist, self.filename)
 
+            return True
+
         except ValueError:
             raise ValueError("Invalid data for editing\nExample: title;content;#tag1,#tag2,#tag3, or single one")
 
@@ -70,7 +74,7 @@ class NotesList:
             if str(note.title) == value:
                 return note
 
-            return None
+        return None
 
     def delete(self, value):
         # !!!Attention!!!
@@ -79,12 +83,12 @@ class NotesList:
             current_note = self.find_note(value)
 
             if current_note:
-                self.noteslist.remove(note)
+                self.noteslist.remove(current_note)
                 return True
 
-            return current_note
-
             Serialization.save_to_file(self.noteslist, self.filename)
+
+            return current_note
 
         except ValueError:
             pass

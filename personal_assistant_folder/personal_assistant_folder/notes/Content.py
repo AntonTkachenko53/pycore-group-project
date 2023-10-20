@@ -6,10 +6,10 @@ class Content(Field):
 
     def __init__(self, value):
         super().__init__(value)
-        self.validate()
+        self.validate(value)
 
-    def validate(self):
-        text = self._value.strip()
+    def validate(self, value):
+        text = value.strip()
 
         if text and len(text) > self.MAX_LENGTH:
             raise ValueError(f"The content length must be less {self.MAX_LENGTH} characters")

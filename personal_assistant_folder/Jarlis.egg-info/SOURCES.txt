@@ -1,5 +1,4 @@
 MANIFEST.in
-README.md
 setup.py
 Jarlis.egg-info/PKG-INFO
 Jarlis.egg-info/SOURCES.txt
