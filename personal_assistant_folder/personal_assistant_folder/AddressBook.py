@@ -46,16 +46,16 @@ class AddressBook:
         return None
 
     def find_records(self, searching_str: str):
-        result = []
-
-        for record in self.records:
-            if searching_str in record.name._value or searching_str in record.phone._value or searching_str in record.birthday._value or searching_str in record.email._value or searching_str in record.address._value:
-                result.append(record)
+        result = [
+            record for record in self.records if
+            searching_str in f"{record.name._value} {record.phone._value} "
+                             f"{record.birthday._value if record.birthday else ''} "
+                             f"{record.email._value if record.email else ''} "
+                             f"{record.address._value if record.address else ''}"
+        ]
 
         if not result:
             result.append('Nothing found!')
-
-        return result
 
     def delete_record(self, record_to_delete: str):
 
