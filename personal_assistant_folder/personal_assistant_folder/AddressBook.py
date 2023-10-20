@@ -60,20 +60,13 @@ class AddressBook:
         return result
 
     def delete_record(self, record_to_delete: str):
-
-        try:
-            current_record = self.find_record(record_to_delete)
-
-            if current_record:
-                self.records.remove(current_record)
-                return True
-
-            Serialization.save_to_file(self.records, self.filename)
-
-            return current_record
-
-        except ValueError:
-            pass
+        result = False
+        for record in self.records:
+            if record_to_delete == record.name._value:
+                self.records.remove(record)
+                Serialization.save_to_file(self.records, self.filename)
+                result = True
+        return result
 
     def edit_record(self, record_name, data, field=None):
         if not record_name:

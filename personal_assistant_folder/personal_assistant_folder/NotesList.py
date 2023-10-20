@@ -79,19 +79,13 @@ class NotesList:
     def delete(self, value):
         # !!!Attention!!!
         # Find and delete Note work only by it title
-        try:
-            current_note = self.find_note(value)
-
-            if current_note:
-                self.noteslist.remove(current_note)
-                return True
-
-            Serialization.save_to_file(self.noteslist, self.filename)
-
-            return current_note
-
-        except ValueError:
-            pass
+        result = False
+        for note in self.noteslist:
+            if value == note.title._value:
+                self.noteslist.remove(note)
+                Serialization.save_to_file(self.noteslist, self.filename)
+                result = True
+        return result
 
     def find_notes(self, value):
         found_notes = []

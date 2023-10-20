@@ -142,7 +142,7 @@ def submenu_addressbook(addressbook, items_per_page):
                 result = addressbook.add_record(command)
 
                 if result:
-                    print('Note successfully saved')
+                    print('Contact successfully saved')
 
             except ValueError as e:
                 print(e)
