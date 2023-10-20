@@ -123,9 +123,7 @@ class AddressBook:
     def get_upcoming_birthday_contacts(self, days):
         upcoming_birthdays = []
         for record in self.records:
-            days_to_birthday = record.birthday.days_to_birthday()
-            print(days_to_birthday)
-            print(days_to_birthday == int(days))
+            days_to_birthday = record.birthday.days_to_birthday() if record.birthday else ''
             if days_to_birthday == int(days):
                 upcoming_birthdays.append(record)
         if not upcoming_birthdays:
