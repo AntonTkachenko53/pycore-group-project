@@ -57,6 +57,8 @@ class AddressBook:
         if not result:
             result.append('Nothing found!')
 
+        return result
+
     def delete_record(self, record_to_delete: str):
 
         try:
