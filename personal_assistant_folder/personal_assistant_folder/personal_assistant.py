@@ -11,9 +11,15 @@ FILE_CONTACTS = 'contacts.bin'
 FILE_NOTES = 'notes.bin'
 ITEMS_PER_PAGE = 10
 
-# Initializing objects
-addressbook = AddressBook(FILE_CONTACTS)
-noteslist = NotesList(FILE_NOTES)
 
-# Start menu
-show_menu(addressbook, noteslist, ITEMS_PER_PAGE)
+def init():
+    # Initializing objects
+    addressbook = AddressBook(FILE_CONTACTS)
+    noteslist = NotesList(FILE_NOTES)
+
+    # Start menu
+    show_menu(addressbook, noteslist, ITEMS_PER_PAGE)
+
+
+if __name__ == '__main__':
+    init()

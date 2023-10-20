@@ -7,10 +7,10 @@ class Title(Field):
 
     def __init__(self, value):
         super().__init__(value)
-        self.validate()
+        self.validate(value)
 
-    def validate(self):
-        title = self._value.strip()
+    def validate(self, value):
+        title = value.strip()
 
         if not title:
             raise ValueError(f"Title can't be empty")

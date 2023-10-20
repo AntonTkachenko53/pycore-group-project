@@ -17,6 +17,7 @@ class AddressBook:
         порядок наступний: name, phone, далі ключові аргументи, котрі за замовчуванням = None: birthday, email, address.
         """
         commands = user_input.strip().split(';')
+
         if not (self.MIN_LENGTH_ADD <= len(commands) <= self.MAX_LENGTH_ADD):
             raise ValueError('Enter correct info to add a record')
 
@@ -29,7 +30,11 @@ class AddressBook:
         try:
             contact = Record(name, phone, *args)
             self.records.append(contact)
+
             Serialization.save_to_file(self.records, self.filename)
+
+            return True
+
         except ValueError:
             raise ValueError('Invalid info to create a record')
 
@@ -37,6 +42,8 @@ class AddressBook:
         for record in self.records:
             if str(record.name) == value:
                 return record
+
+        return None
 
     def find_records(self, searching_str: str):
         result = [
@@ -53,11 +60,13 @@ class AddressBook:
         return result
 
     def delete_record(self, record_to_delete: str):
+        result = False
         for record in self.records:
             if record_to_delete == record.name._value:
                 self.records.remove(record)
-
-        Serialization.save_to_file(self.records, self.filename)
+                Serialization.save_to_file(self.records, self.filename)
+                result = True
+        return result
 
     def edit_record(self, record_name, data, field=None):
         if not record_name:
@@ -70,34 +79,36 @@ class AddressBook:
                     raise ValueError('Enter correct info to edit a record')
 
                 # Оновити запис в залежності від кількості аргументів
-                record_name.name.value = commands[0]
-                record_name.phone.value = commands[1]
+                record_name.edit_name(commands[0])
+                record_name.edit_phone(commands[1])
 
                 if len(commands) >= 3:
-                    record_name.birthday.value = commands[2]
+                    record_name.edit_birthday(commands[2])
 
                 if len(commands) >= 4:
-                    record_name.email.value = commands[3]
+                    record_name.edit_email(commands[3])
 
                 if len(commands) == 5:
-                    record_name.address.value = commands[4]
+                    record_name.edit_address(commands[4])
 
             # Оновити конкретне поле, якщо вказано
             else:
                 if field == 'name':
-                    record_name.name.value = data
+                    record_name.edit_name(data)
                 elif field == 'phone':
-                    record_name.phone.value = data
+                    record_name.edit_phone(data)
                 elif field == 'birthday':
-                    record_name.birthday.value = data
+                    record_name.edit_birthday(data)
                 elif field == 'email':
-                    record_name.email.value = data
+                    record_name.edit_email(data)
                 elif field == 'address':
-                    record_name.address.value = data
+                    record_name.edit_address(data)
                 else:
                     raise ValueError("Invalid field name for editing")
 
             Serialization.save_to_file(self.records, self.filename)
+
+            return True
 
         except ValueError:
             raise ValueError("Invalid data for editing\nExample: name;phone;birthday;email;address, or a single one")
@@ -105,8 +116,8 @@ class AddressBook:
     def get_upcoming_birthday_contacts(self, days):
         upcoming_birthdays = []
         for record in self.records:
-            days_to_birthday = record.birthday.days_to_birthday()
-            if days_to_birthday == days:
+            days_to_birthday = record.birthday.days_to_birthday() if record.birthday else ''
+            if days_to_birthday == int(days):
                 upcoming_birthdays.append(record)
         if not upcoming_birthdays:
             raise ValueError(f"Nothing found!")

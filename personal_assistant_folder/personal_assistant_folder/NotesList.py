@@ -32,6 +32,8 @@ class NotesList:
 
             Serialization.save_to_file(self.noteslist, self.filename)
 
+            return True
+
         except ValueError:
             raise ValueError("Invalid data format\nExample: Title;Content;#tag1,#tag2,#tag3")
 
@@ -39,7 +41,9 @@ class NotesList:
         try:
             if field is None:  # редагування всих полів
                 title, content, tags = data.split(';')
-                note.title.value, note.content.value = title, content
+                note.edit_title(title)
+                note.edit_content(content)
+
                 note.tags.clear()
                 if tags:
                     tags_list = tags.split(',')
@@ -47,9 +51,9 @@ class NotesList:
                         note.add_tag(tag)
             # редагування відповідних полів
             elif field == 'title':
-                note.title.value = data
+                note.edit_title(data)
             elif field == 'content':
-                note.content.value = data
+                note.edit_title(data)
             elif field == 'tags':
                 note.tags.clear()
                 tags_list = data.split(',')
@@ -60,26 +64,28 @@ class NotesList:
 
             Serialization.save_to_file(self.noteslist, self.filename)
 
+            return True
+
         except ValueError:
             raise ValueError("Invalid data for editing\nExample: title;content;#tag1,#tag2,#tag3, or single one")
-
-    def delete(self, value):
-        # !!!Attention!!!
-        # Find and delete Note work only by it title
-        try:
-            for note in self.noteslist:
-                if str(note.title) == value:
-                    self.noteslist.remove(note)
-
-            Serialization.save_to_file(self.noteslist, self.filename)
-
-        except ValueError:
-            pass
 
     def find_note(self, value):
         for note in self.noteslist:
             if str(note.title) == value:
                 return note
+
+        return None
+
+    def delete(self, value):
+        # !!!Attention!!!
+        # Find and delete Note work only by it title
+        result = False
+        for note in self.noteslist:
+            if value == note.title._value:
+                self.noteslist.remove(note)
+                Serialization.save_to_file(self.noteslist, self.filename)
+                result = True
+        return result
 
     def find_notes(self, value):
         found_notes = []

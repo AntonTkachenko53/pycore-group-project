@@ -7,10 +7,10 @@ class Phone(Field):
 
     def __init__(self, value):
         super().__init__(value)
-        self.validate()
+        self.validate(value)
 
-    def validate(self):
-        cleaned_number = ''.join([char for char in self._value if char.isdigit()])
+    def validate(self, value):
+        cleaned_number = ''.join([char for char in value if char.isdigit()])
 
         if len(cleaned_number) > self.MAX_LENGTH:
             raise ValueError("Phone number too long")
@@ -18,4 +18,4 @@ class Phone(Field):
         if len(cleaned_number) < self.MIN_LENGTH:
             raise ValueError("Phone number too short")
 
-        self._value = '+' + cleaned_number if len(cleaned_number) == 12 else cleaned_number
+        return '+' + cleaned_number if len(cleaned_number) == 12 else cleaned_number
